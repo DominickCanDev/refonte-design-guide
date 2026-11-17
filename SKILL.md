@@ -51,6 +51,22 @@ Simplifying means reducing repetition and visual competition while preserving
 useful information, functionality, and accessibility. Existing identity is
 the starting point.
 
+## Scope the work
+
+Identify the mode before editing. The mode determines the deliverable and how
+far the work may go.
+
+| Mode | When it applies | Deliverable |
+| --- | --- | --- |
+| Audit | The request is to review, or the cause is not yet known | Ranked findings with evidence; no edits unless implementation was requested |
+| Focused fix | One screen or component with an identified problem | Targeted change plus checks on the affected states |
+| Journey redesign | The problem spans steps, decisions, or recovery | Revised flow, content, actions, and states |
+| Shared pattern change | The same defect repeats across surfaces | Variant or token change with every consumer reviewed |
+
+Do not expand beyond the affected journey. Note adjacent problems instead of
+fixing them silently. A visual preference alone is not a defect: tie each
+finding to an observable element and a concrete consequence.
+
 ## 1. Understand the real problem first
 
 Read the component, its data, and its actual actions in addition to any visual
@@ -145,6 +161,17 @@ success before confirmation.
 Preserve destinations, permissions, business rules, and independent settings.
 Wire buttons to real behavior and check loading, error, empty, success,
 unavailable, and retry states.
+
+### Reuse existing patterns deliberately
+
+- Prefer the existing component, token, and convention over a new one. Check
+  available variants before creating a local override.
+- Distinguish a local variant from a global change. Changing a shared component
+  requires reviewing every consumer, not only the screen in front of you.
+- Do not add a dependency, font, or icon set for a single screen when the
+  project already provides an equivalent.
+- Keep shared semantics stable: the same role should not look different on
+  adjacent screens without a reason.
 
 ## 5. Compose a coherent page
 
@@ -259,8 +286,29 @@ Run the static analysis and focused functional checks appropriate to the work.
 Follow the target project's instructions and test tools; do not recreate a
 removed legacy test suite without an explicit request.
 
+Match checks to the change:
+
+| Change | Checks |
+| --- | --- |
+| Element removed or moved | Information and function remain reachable; decision data is still visible when needed |
+| Action relabeled or rewired | Destination and side effects are correct; guards and confirmations still apply |
+| Layout recomposed | Narrow screen, long labels, large values, enlarged text |
+| State touched | Loading, error, empty, partial, retry, success |
+| Shared component or token changed | Every consumer reviewed in its own content states |
+
 At delivery, briefly explain the fixed problem, the new reading and action
 priority, the checks performed, and their limitations.
+
+## Reference checklists
+
+Load only the files relevant to the task:
+
+| File | Use it when |
+| --- | --- |
+| `references/states.md` | The surface loads data, performs actions, or can fail |
+| `references/accessibility.md` | Any interactive redesign |
+| `references/copy.md` | Labels, errors, values, or units are edited |
+| `references/anti-patterns.md` | Auditing, or reviewing your own proposal |
 
 ## Completion criteria
 
