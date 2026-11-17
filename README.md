@@ -1,18 +1,18 @@
 # refonte-design-guide
 
-Skill en français pour analyser et réaliser des refontes UX/UI de pages,
-composants, widgets et modals web ou mobile.
+An English-language skill for analyzing and implementing UX/UI redesigns of
+web and mobile pages, components, widgets, and modals.
 
-## Contenu
+## Contents
 
-- `SKILL.md` : méthode autonome, critères de décision, exemples et critères de
-  livraison.
+- `SKILL.md`: the autonomous method, decision criteria, examples, and delivery
+  criteria.
 
-## Utilisation
+## Usage
 
-Installez ou référencez ce dossier dans le répertoire de skills de votre agent.
-Le skill est activé pour les demandes de refonte d'interface, d'amélioration de
-hiérarchie visuelle ou de clarification d'un parcours.
+Install or reference this directory from your agent's skills directory. The
+skill is intended for interface redesign requests, visual hierarchy
+improvements, and journey clarification.
 
-La méthode ne remplace pas la lecture du dépôt cible : les composants, données,
-états, règles métier et consignes du projet restent la source de vérité.
+The method does not replace reading the target repository. Its components, data,
+states, business rules, and project instructions remain the source of truth.

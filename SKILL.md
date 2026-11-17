@@ -1,289 +1,281 @@
 ---
 name: refonte-design-guide
-description: Méthode pour analyser, concevoir et implémenter une refonte UX/UI de page, composant, widget ou modal sur web et mobile. Aide à clarifier la hiérarchie de l'information, les actions, les états, l'accessibilité et la cohérence visuelle sans perdre le sens métier ni l'identité du produit.
+description: A method for analyzing, designing, and implementing UX/UI redesigns for web and mobile pages, components, widgets, and modals. Clarifies information hierarchy, actions, states, accessibility, and visual coherence without losing product meaning or identity.
 ---
 
-# Méthode de refonte UX/UI
+# UX/UI Redesign Method
 
-Guide autonome pour toute refonte de page, composant, widget ou modal web et
-mobile. Il fournit une méthode, des critères de décision et des exemples
-génériques. Le code, les données et les consignes du projet concerné restent
-nécessaires pour comprendre son métier.
+An autonomous guide for redesigning any web or mobile page, component, widget,
+or modal. It provides a method, decision criteria, and generic examples. The
+target project's code, data, and instructions are still required to understand
+its domain.
 
-## Contrat d'utilisation
+## Operating contract
 
-- Lire le code et les consignes du projet avant de proposer une modification.
-- Préserver les fonctions, destinations, droits, données et règles métier
-  existants, sauf demande explicite contraire.
-- Distinguer les observations faites dans le code ou l'interface, les
-  recommandations de conception et les comportements réellement vérifiés.
-- Ne pas inventer de métriques, de retours utilisateurs, de données ou de
-  résultats de tests.
-- Adapter l'effort au risque : une retouche locale demande des contrôles ciblés ;
-  une refonte de parcours demande la vérification des états et de la récupération.
-- Demander une clarification uniquement lorsqu'un choix change une règle métier,
-  une destination, une donnée importante ou une intention utilisateur.
+- Read the target code and project instructions before proposing changes.
+- Preserve existing functions, destinations, permissions, data, and business
+  rules unless explicitly asked to change them.
+- Distinguish observations made in the code or interface from design
+  recommendations and behavior that was actually verified.
+- Do not invent metrics, user feedback, data, or test results.
+- Scale effort to risk: a local adjustment needs focused checks; a journey
+  redesign needs state and recovery verification.
+- Ask for clarification only when a choice changes a business rule, destination,
+  important data, or user intent.
 
-## Mode d'emploi
+## Workflow
 
-Avec ce guide et la surface à refondre :
+Given this guide and the surface to redesign:
 
-1. Lire la page, ses composants, ses sources de données, ses actions et leurs
-   destinations. Consulter les instructions du dépôt.
-2. Établir l'intention de l'utilisateur à l'entrée et le résultat attendu à la
-   sortie, à partir du parcours réellement implémenté.
-3. Inventorier les informations et actions présentes, y compris dans les états
-   de chargement, d'erreur, d'absence de données et d'indisponibilité.
-4. Définir la hiérarchie et le traitement de chaque élément avec les critères
-   ci-dessous. Examiner aussi la composition entière : répétitions entre
-   composants, poids visuels, styles, espacements, textes et images.
-5. Implémenter dans les composants réellement utilisés et vérifier le parcours
-   complet affecté, pas seulement l'apparence d'un composant isolé.
-6. Livrer une explication courte du problème corrigé, des vérifications réalisées
-   et de leurs limites.
+1. Read the page, its components, data sources, actions, and destinations.
+   Consult the repository instructions.
+2. Establish the user's intent on entry and the expected outcome on exit from
+   the actually implemented journey.
+3. Inventory all information and actions, including loading, error, empty, and
+   unavailable states.
+4. Define the hierarchy and treatment of each element using the criteria below.
+   Also review the whole composition: repetition between components, visual
+   weight, styles, spacing, text, and image framing.
+5. Implement in the components that are actually used and verify the complete
+   affected journey, not just an isolated component's appearance.
+6. Deliver a short explanation of the problem fixed, checks performed, and
+   remaining limitations.
 
-## Objectif
+## Objective
 
-Rendre immédiatement compréhensibles l'information essentielle et la prochaine
-action utile. Une refonte doit résoudre un problème de lecture, de décision ou
-de parcours. Changer les couleurs ou arrondir les cartes ne suffit pas.
+Make the essential information and next useful action immediately
+understandable. A redesign should solve a reading, decision, or journey
+problem. Changing colors or rounding cards is not enough.
 
-Épurer signifie réduire les répétitions et la concurrence visuelle tout en
-préservant les informations utiles, les fonctions et leur accessibilité.
-L'identité existante reste le point de départ.
+Simplifying means reducing repetition and visual competition while preserving
+useful information, functionality, and accessibility. Existing identity is
+the starting point.
 
-## 1. Comprendre le vrai problème
+## 1. Understand the real problem first
 
-Lire le composant, ses données et ses actions réelles, en plus de toute
-référence visuelle. Formuler brièvement :
+Read the component, its data, and its actual actions in addition to any visual
+reference. State briefly:
 
-- Ce que l'utilisateur vient de faire et ce qu'il cherche maintenant.
-- L'information qu'il doit comprendre en premier.
-- L'action la plus utile à cet instant et les autres destinations nécessaires.
-- Ce qui gêne aujourd'hui : répétition, priorité inversée, bouton concurrent,
-  libellé ambigu, information dispersée, étape superflue ou débordement.
+- What the user just did and what they are looking for now.
+- What they need to understand first.
+- The most useful action at this moment and the other required destinations.
+- What currently gets in the way: repetition, inverted priority, competing
+  buttons, ambiguous labels, scattered information, unnecessary steps, or
+  overflow.
 
-Exemple : après la validation d'une activité, le statut d'enregistrement et un
-ornement très visible occupaient la première place, alors que le résultat
-obtenu et la possibilité de continuer méritaient la priorité.
+Example: after completing an activity, the saved-status message and a prominent
+ornament took first place, while the actual result and the option to continue
+deserved priority.
 
-Ne pas demander au responsable produit de redéfinir chaque marge, titre ou
-bouton : déduire les choix courants du parcours et du code. Une clarification
-est utile si le choix change une règle métier ou si deux intentions
-incompatibles restent possibles.
+Do not ask the product owner to redefine every margin, title, or button. Infer
+ordinary choices from the journey and code. Clarification is useful when a
+choice changes a business rule or when incompatible intents remain possible.
 
-### Diagnostic attendu
+### Expected diagnosis
 
-> L'utilisateur arrive ici pour **[objectif]**. Il doit d'abord comprendre
-> **[information]**, puis pouvoir **[action ou consultation attendue]**.
-> Aujourd'hui, **[élément concret]** gêne cela parce que **[conséquence]**.
-> La refonte va **[changement de hiérarchie ou de parcours]**, tout en
-> conservant **[données, destinations et contraintes à préserver]**.
+> The user comes here to **[goal]**. They must first understand
+> **[information]**, then be able to **[expected action or consultation]**.
+> Today, **[concrete element]** gets in the way because **[consequence]**.
+> The redesign will **[hierarchy or journey change]**, while preserving
+> **[data, destinations, and constraints to keep]**.
 
-Appuyer le diagnostic sur des observations : deux boutons déclenchent la même
-action, un grand titre répète le contenu, un montant est séparé de sa
-condition, ou une action indispensable est hors de portée. Éviter les
-justifications vagues comme « plus moderne » ou « plus propre ». Ne pas
-présenter comme mesuré un gain qui n'a pas été mesuré.
+Base the diagnosis on observations: two buttons trigger the same action, a
+large heading repeats the content, an amount is separated from its condition,
+or an essential action is out of reach. Avoid vague justifications such as
+"more modern" or "cleaner." Do not present an unmeasured improvement as
+measured.
 
-## 2. Donner un rôle clair à chaque information
+## 2. Give every piece of information a clear role
 
-Organiser la lecture selon l'importance pour la tâche :
+Organize reading by importance to the task:
 
-1. **Essentiel** : résultat, contenu ou décision qui justifie cet écran.
-2. **Contexte utile** : détails nécessaires pour interpréter cet essentiel.
-3. **Complément** : comparaison, historique ou destination secondaire.
+1. **Essential**: the result, content, or decision that justifies the screen.
+2. **Useful context**: details needed to interpret the essential information.
+3. **Supplement**: comparison, history, or secondary destination.
 
-Utiliser d'abord l'ordre, la taille, la graisse, la proximité et l'espace.
-Regrouper les informations liées ; éviter une carte, une icône ou un titre pour
-chaque valeur. Une même information ne doit pas être annoncée plusieurs fois
-sans raison.
+Use order, size, weight, proximity, and space first. Group related information;
+avoid a card, icon, or heading for every value. The same information should not
+be announced multiple times without a reason.
 
-Pour chaque élément existant, décider : conserver, regrouper, reformuler,
-déplacer vers un détail accessible ou supprimer parce qu'il est redondant. Une
-information nécessaire à la décision reste visible au moment de décider. Ne
-pas cacher une erreur, un coût, une condition importante ou une action
-fréquente dans un menu pour alléger artificiellement l'écran.
+For each existing element, decide whether to keep, group, reword, move to an
+accessible detail view, or remove as redundant. Information needed for a
+decision must remain visible when the decision is made. Do not hide an error,
+cost, important condition, or frequent action in a menu just to make the
+screen look lighter.
 
-| Question | Décision à envisager | Condition à respecter |
+| Question | Possible decision | Condition |
 | --- | --- | --- |
-| Sans cet élément, peut-on comprendre le résultat ou décider ? | Le garder au premier niveau | Inclure unité, contexte et condition indispensables |
-| Plusieurs éléments répondent-ils à la même question ? | Les regrouper | Ne pas confondre des concepts distincts |
-| La même information est-elle répétée avec le même sens ? | Retirer une occurrence | Une valeur égale ne prouve pas à elle seule une redondance |
-| Le détail est-il occasionnel ? | Le déplacer vers un accès secondaire explicite | Sa destination et son libellé doivent permettre de le retrouver |
-| Le texte décrit-il longuement une action déjà claire ? | Le raccourcir | Conserver sens, destination et distinctions nécessaires |
-| L'élément est-il décoratif et détourne-t-il l'attention ? | Réduire son poids ou le retirer | Préserver les repères utiles et l'identité du produit |
+| Can the result be understood or a decision made without this element? | Keep it at the first level | Include essential unit, context, and condition |
+| Do several elements answer the same question? | Group them | Do not merge distinct concepts |
+| Is the same information repeated with the same meaning? | Remove one occurrence | Equal values alone do not prove redundancy |
+| Is the detail only consulted occasionally? | Move it to an explicit secondary access point | Its destination and label must make it findable |
+| Does the text describe an action that is already clear in context? | Shorten it | Preserve meaning, destination, and necessary distinctions |
+| Is the element decorative and distracting? | Reduce its weight or remove it | Preserve useful landmarks and product identity |
 
-Pour chaque retrait ou déplacement, pouvoir expliquer où l'information ou la
-fonction reste accessible, ou pourquoi elle faisait réellement doublon. En cas
-de doute sur son rôle métier, la conserver jusqu'à clarification.
+For every removal or relocation, explain where the information or function
+remains available, or why it was genuinely duplicated. When its domain role is
+unclear, keep it until clarified.
 
-## 3. Hiérarchiser les actions
+## 3. Establish action hierarchy
 
-- Quand le parcours a une prochaine action évidente, lui réserver l'accent
-  principal. Les actions secondaires restent visibles avec moins de poids.
-- Nommer l'action avec des mots courts et précis : « Continuer », « Modifier »,
-  « Détails », « Retour », lorsque le contexte suffit.
-- Garder des zones tactiles confortables même pour les boutons discrets.
-- Conserver les confirmations et protections nécessaires aux actions sensibles.
-- Choisir une icône selon son sens perçu et fournir un libellé accessible aux
-  commandes iconographiques.
+- When the journey has an obvious next step, give it the primary emphasis.
+  Secondary actions remain visible with less visual weight.
+- Use short, precise labels such as "Continue," "Edit," "Details," or "Back"
+  when the context is sufficient.
+- Keep touch targets comfortable even for visually quiet buttons.
+- Preserve confirmations and safeguards required for sensitive actions.
+- Choose icons for their perceived meaning and provide accessible labels for
+  icon-only controls.
 
-Un seul bouton principal peut convenir à un écran de confirmation, mais ce
-n'est pas une règle mécanique. Une page de consultation, un formulaire ou une
-comparaison doivent suivre leur propre usage.
+A single primary button may suit a confirmation screen, but it is not a
+mechanical rule. A browsing page, form, or comparison should follow its own
+usage.
 
-## 4. Préserver le sens, l'identité et le comportement
+## 4. Preserve meaning, identity, and behavior
 
-Conserver les couleurs, typographies et conventions pertinentes de la page ou
-du produit. Une structure commune peut respecter plusieurs identités sans
-uniformiser tous les écrans.
+Keep the relevant colors, type, and conventions of the page or product. A
+shared structure can support multiple identities without making every screen
+look identical.
 
-Vérifier la signification des données avant de les présenter. Un résultat
-courant, un meilleur résultat et un classement sont des informations
-différentes. Une unité ne doit pas être copiée d'un domaine à l'autre. Ne pas
-inventer de valeur pour remplir la composition et ne pas annoncer un succès
-avant confirmation.
+Verify the meaning of data before presenting it. A current result, best result,
+and ranking are different pieces of information. Do not copy a unit from one
+domain to another. Do not invent values to fill a composition or announce
+success before confirmation.
 
-Préserver les destinations, droits, règles métier et réglages indépendants.
-Brancher réellement les boutons et vérifier les états concernés : chargement,
-erreur, absence de données, succès, indisponibilité et nouvelle tentative.
+Preserve destinations, permissions, business rules, and independent settings.
+Wire buttons to real behavior and check loading, error, empty, success,
+unavailable, and retry states.
 
-## 5. Composer une page cohérente
+## 5. Compose a coherent page
 
-Des composants lisibles séparément ne garantissent pas une bonne page. Évaluer
-ce que leur réunion produit dans les différents états de contenu, pas
-uniquement la qualité de chaque composant.
+Components that are readable in isolation do not guarantee a good page.
+Evaluate what their combination produces across content states, not only the
+quality of each component.
 
-**Épuré ne signifie pas neutre.** Retirer le bruit et les répétitions ne
-demande pas de supprimer les couleurs, illustrations, textures, dégradés ou
-ornements qui donnent son identité à l'interface. Conserver ceux qui servent
-le contexte et la hiérarchie, en ajustant leur intensité.
+**Clean does not mean neutral.** Removing noise and repetition does not require
+removing colors, illustrations, textures, gradients, or ornaments that give the
+interface its identity. Keep what serves context and hierarchy, adjusting
+intensity rather than deleting it by default.
 
-**Clarifier la hiérarchie ne doit pas effacer le caractère visuel.** Lorsqu'une
-structure UX fonctionne, travailler son expression : surfaces, couleurs,
-typographie, illustration et détails adaptés au contexte. Réduire les effets
-excessifs sans supprimer toute décoration par défaut.
+**Clarifying hierarchy should not erase visual character.** When the UX
+structure works, refine its expression through surfaces, color, typography,
+illustration, and context-appropriate details. Reduce excessive effects without
+removing all decoration by default.
 
-Distinguer deux questions complémentaires :
+Keep two complementary questions separate:
 
-- **UX** : comprend-on les informations, les choix et leurs conséquences ?
-- **UI** : la composition, les styles et les proportions rendent-ils cette
-  hiérarchie perceptible et cohérente à l'échelle de l'écran ?
+- **UX**: Can users understand the information, choices, and consequences?
+- **UI**: Do composition, styles, and proportions make that hierarchy visible
+  and coherent at screen scale?
 
-| Dimension | Question concrète | Ajustement possible |
+| Dimension | Concrete question | Possible adjustment |
 | --- | --- | --- |
-| Poids visuel | Quel élément attire le regard ? Son importance le justifie-t-elle ? | Réduire les accents concurrents avant d'agrandir l'action principale |
-| Styles | Les surfaces, boutons et icônes semblent-ils appartenir à la même interface ? | Harmoniser bordures, ombres, arrondis et rôles, sans effacer les différences utiles |
-| Typographie | Titres, valeurs et explications ont-ils des rôles distincts ? | Donner des rôles stables aux tailles et graisses |
-| Espacements | Les éléments liés sont-ils plus proches que les groupes distincts ? | Ajuster les espacements internes et entre sections |
-| Actions secondaires | Leur traitement leur donne-t-il trop de présence ? | Alléger l'apparence tout en conservant une zone interactive confortable |
-| Images | Le sujet reste-t-il reconnaissable dans le cadre réel ? | Choisir ratio, position et recadrage selon l'image |
+| Visual weight | What attracts attention, and does its importance justify it? | Reduce competing accents before enlarging the primary action |
+| Styles | Do surfaces, buttons, and icons feel like the same interface? | Harmonize borders, shadows, radii, and roles without erasing useful differences |
+| Typography | Do headings, values, and explanations have distinct roles? | Establish stable type sizes and weights |
+| Spacing | Are related elements closer than unrelated groups? | Adjust internal and section spacing |
+| Secondary actions | Does their treatment give them too much presence? | Lighten their appearance while keeping a comfortable target |
+| Images | Is the subject recognizable in the actual frame? | Choose ratio, position, and crop for the image |
 
-La cohérence n'impose pas un style uniforme ou minimaliste. Une illustration
-ou une récompense peut être expressive ; vérifier si le cumul d'effets sert sa
-place dans la page. Un composant réutilisé peut nécessiter une variante plus
-sobre ici tout en gardant une présentation riche ailleurs.
+Coherence does not require a uniform or minimalist style. An illustration or
+reward can be expressive; check whether the combined effects fit its role on
+the page. A reusable component may need a quieter variant here while retaining
+its richer presentation elsewhere.
 
-### Auto-évaluation honnête
+### Honest self-review
 
-Pour chaque critique, identifier l'élément observable, expliquer son effet
-possible et proposer un ajustement proportionné. Distinguer observation,
-jugement visuel et comportement réellement vérifié. Nommer aussi ce qui
-fonctionne et doit être préservé.
+For every critique, identify the observable element, explain its possible
+effect, and propose a proportionate adjustment. Distinguish observation,
+visual judgment, and behavior that was actually verified. Also name what works
+and should be preserved.
 
-Un espace libre n'est pas forcément du gaspillage ; une image coupée n'est pas
-forcément mal cadrée ; une différence de style peut être intentionnelle. Une
-capture permet d'examiner la composition visible, pas de conclure sur tous les
-états ou interactions.
+Empty space is not automatically wasteful; a cropped image is not automatically
+badly framed; a style difference may be intentional. A screenshot permits
+reviewing visible composition, not concluding about every state or interaction.
 
-## 6. Exemple générique : écran de résultat
+## 6. Generic example: a result screen
 
-Situation : une activité vient de se terminer. L'utilisateur veut connaître le
-résultat de cette tentative, le situer par rapport à son meilleur résultat,
-puis recommencer ou consulter un détail. Le classement général ne signifie pas
-que la tentative actuelle est un nouveau record.
+Situation: an activity has just ended. The user wants to know the result of this
+attempt, compare it with their best result, then try again or view details. A
+general ranking does not mean that the current attempt is a new record.
 
-L'ancienne présentation mettait en avant un grand trophée, un message de statut
-et une position, puis seulement le résultat. Les statistiques étaient
-secondaires et plusieurs actions rivalisaient entre elles. Le problème était
-la priorité visuelle donnée au statut et au rang au détriment du résultat
-immédiat et de la suite du parcours.
+The old presentation emphasized a large trophy, a status message, and a
+position, with the result shown only afterward. Statistics were secondary and
+several actions competed with one another. The problem was visual priority
+given to status and rank instead of the immediate result and next step.
 
-Exemple de présentation, avec des valeurs illustratives :
+Example presentation using illustrative values:
 
 ```text
-                 ACTIVITÉ TERMINÉE          ← repère discret
-                       333                   ← information dominante
-                      points                 ← unité proche du résultat
+                    ACTIVITY COMPLETE       <- quiet status
+                           333               <- dominant information
+                          points              <- unit beside the result
 
-       158 unités · 7 étapes · 11,57 s      ← mesures de cette tentative
+             158 units · 7 steps · 11.57 s   <- attempt measurements
 
-        Classement général · #1   Meilleur : 3379 points
+             Overall rank · #1   Best: 3379 points
 
-                  [ Recommencer ]            ← seul bouton rempli
-              Détails          Accueil       ← actions secondaires
+                    [ Try again ]            <- only filled button
+                 Details          Home       <- secondary actions
 ```
 
-Le résultat et son unité forment le premier groupe. Les mesures de cette
-tentative forment le deuxième. Le rang et le meilleur résultat forment un
-groupe de comparaison moins accentué. Les lignes peuvent se replier sur un
-écran étroit ; aucun ordre de lecture ne dépend d'une largeur fixe.
+The result and its unit form the first group. Attempt measurements form the
+second. Rank and best result form a less prominent comparison group. Lines can
+wrap on a narrow screen; reading order must not depend on a fixed width.
 
-Les chiffres sont un exemple de présentation, pas des données à coder en dur.
-Les métriques et leurs unités doivent venir du domaine réel. Une répétition
-numérique peut être omise dans un bilan compact, mais une distinction utile
-doit rester visible si elle compte pour le parcours. Une égalité n'est pas un
-nouveau record. Un statut de fin ne doit pas annoncer une sauvegarde réussie
-si celle-ci est encore en cours ou a échoué.
+The numbers are presentation examples, not hard-coded data. Metrics and units
+must come from the real domain. A repeated number may be omitted from a compact
+summary, but a useful distinction must remain visible when it matters to the
+journey. A tie is not a new record. A completion status must not claim that
+data was saved successfully while saving is still pending or has failed.
 
-Les actions doivent réellement déclencher leur destination : recommencer
-l'activité, ouvrir les détails et revenir à la page d'accueil. Le travail
-inclut ces branchements et leurs états.
+Actions must trigger their actual destinations: restart the activity, open
+details, and return home. The work includes wiring these actions and their
+states.
 
-### Transposer à d'autres pages
+### Applying the method to other pages
 
-Ces situations sont hypothétiques et servent à appliquer le raisonnement :
+These hypothetical situations illustrate the reasoning:
 
-| Situation | Problème à résoudre | Application |
+| Situation | Problem to solve | Application |
 | --- | --- | --- |
-| Confirmation d'une commande | Montant, frais et conditions dispersés | Regrouper ce qui permet de décider et rendre le total visible avant confirmation |
-| Formulaire de profil | Titres répétés et enregistrement difficile à trouver | Regrouper les champs liés, hiérarchiser l'enregistrement et garder les erreurs au bon endroit |
-| Liste d'événements | Badges dominants, dates difficiles à comparer, tri ambigu | Prioriser les informations qui permettent de choisir et rendre tri et filtres compréhensibles |
-| Paramètres audio | Un bouton global masque plusieurs réglages indépendants | Regrouper les commandes sans les fusionner et préciser ce que chacune active |
+| Order confirmation | Amount, fees, and conditions are scattered | Group what supports the decision and show the total before confirmation |
+| Profile form | Repeated headings and a hard-to-find save action | Group related fields, prioritize saving, and keep errors beside their fields |
+| Event list | Dominant badges, hard-to-compare dates, ambiguous sorting | Prioritize information used to choose and make sort and filters understandable |
+| Audio settings | One global toggle hides independent settings | Group controls without merging them and state precisely what each one enables |
 
-Une page de lecture peut n'avoir aucun bouton dominant. Une page de comparaison
-peut donner la même importance à plusieurs options. Ne pas transformer tous les
-écrans en un résultat central suivi d'un grand bouton.
+A reading page may have no dominant button. A comparison page may give equal
+importance to several options. Do not turn every screen into a central result
+followed by a large button.
 
-## 7. Vérifier et livrer
+## 7. Verify and deliver
 
-Vérifier les actions réelles et les états modifiés, les petits écrans, le texte
-agrandi, les libellés longs et les grandes valeurs. Préférer un retour à la
-ligne ou un défilement maîtrisé à une réduction excessive des textes. Garder
-les actions atteignables, les libellés accessibles et un contraste lisible.
+Check real actions and changed states, small screens, enlarged text, long
+labels, and large values. Prefer wrapping or controlled scrolling to shrinking
+text excessively. Keep actions reachable, labels accessible, and contrast
+readable.
 
-Appliquer l'analyse statique et les contrôles fonctionnels ciblés utiles au
-lot. Respecter les consignes et les outils de test du projet ; ne pas recréer
-une ancienne suite supprimée sans demande explicite.
+Run the static analysis and focused functional checks appropriate to the work.
+Follow the target project's instructions and test tools; do not recreate a
+removed legacy test suite without an explicit request.
 
-À la livraison, expliquer brièvement le problème corrigé, la nouvelle priorité
-de lecture et d'action, les vérifications effectuées et leurs limites.
+At delivery, briefly explain the fixed problem, the new reading and action
+priority, the checks performed, and their limitations.
 
-## Critères de fin
+## Completion criteria
 
-- Le premier niveau répond à l'intention de l'utilisateur et se distingue des
-  compléments sans rendre ces derniers illisibles.
-- Chaque information supprimée ou déplacée est justifiée et les données
-  nécessaires à la décision restent disponibles au bon moment.
-- Les actions ont des libellés compréhensibles et déclenchent les destinations
-  ou opérations attendues, avec leurs protections et états réels.
-- La solution reste utilisable avec les formats et tailles de texte concernés ;
-  elle ne dépend ni de textes minuscules ni d'actions masquées.
-- Le résultat respecte l'identité de l'écran et les contraintes métier.
-- Les composants réunis conservent une hiérarchie visuelle cohérente et les
-  répétitions entre composants ont été examinées selon les états de contenu.
-- Le compte rendu distingue les vérifications réalisées des points non vérifiés.
+- The first level answers the user's intent and is distinct from supplements
+  without making them unreadable.
+- Every removed or moved piece of information is justified, and decision-critical
+  data remains available at the right time.
+- Actions have understandable labels and trigger the expected destinations or
+  operations, with their real safeguards and states.
+- The solution remains usable with relevant formats and text sizes; it does not
+  depend on tiny text or hidden actions.
+- The result respects screen identity and domain constraints.
+- Combined components maintain coherent visual hierarchy, and repetition between
+  components has been reviewed across content states.
+- The delivery note distinguishes completed checks from unverified points.
 
-Une refonte limitée à une nouvelle palette, à des coins arrondis ou à la
-suppression d'informations sans justification ne satisfait pas cette méthode.
+A redesign limited to a new palette, rounded corners, or unjustified removal of
+information does not satisfy this method.
