@@ -1,7 +1,11 @@
 # refonte-design-guide
 
-An English-language skill for analyzing and implementing UX/UI redesigns of
-web and mobile pages, components, widgets, and modals.
+An English-language skill that provides a structured method for diagnosing,
+planning, and implementing UX/UI redesigns across web and mobile interfaces. It
+helps clarify user intent, information hierarchy, action priority, visual
+coherence, responsive behavior, accessibility, and loading, error, empty, and
+success states while preserving the product's business rules, functionality,
+destinations, and visual identity.
 
 ## Contents
 
